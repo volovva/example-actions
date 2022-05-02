@@ -39,7 +39,7 @@ jobs:
         id: start
         run: |
           SCAN_ID=$(nexploit-cli scan:run                                                 \
-            --test csrf dom_xss header_security secret_tokens open_buckets                 \
+            --test ssrf csrf dom_xss header_security xss backup_locations header_security insecure_tls_configuration                \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
             --crawler https://brokencrystals.com/api/config https://brokencrystals.com/  \
             --repeater ${{ secrets.REPEATER }}                                            \
@@ -54,7 +54,7 @@ jobs:
             --interval 30s                        \
             --timeout 10m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint high_issue $SCAN_ID
+            --breakpoint medium_issue $SCAN_ID
       - name: Stop Scan 🛑
         continue-on-error: true
         if: ${{ always() }}
